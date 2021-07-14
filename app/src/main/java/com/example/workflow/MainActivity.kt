@@ -21,9 +21,8 @@ class MainActivity : AppCompatActivity() {
 
     val maxTime = 60
     var isRunning = false;
-    var isRest = false;
-    var workTime = 25
-    var restTime = 5
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,10 +35,10 @@ class MainActivity : AppCompatActivity() {
 
         val sharedPref: SharedPreferences = getSharedPreferences("MyPref", 0)
 
-        workTime = sharedPref.getInt("workTime",25)
-        restTime = sharedPref.getInt("restTime",5)
-        work.setText(Integer.toString(workTime))
-        rest.setText(Integer.toString(restTime))
+        workTime = sharedPref.getLong("workTime",25)
+        restTime = sharedPref.getLong("restTime",5)
+        work.setText(workTime.toString())
+        rest.setText(restTime.toString())
 
 
         if (sharedPref.getBoolean("isRunning", false)) {
@@ -53,7 +52,7 @@ class MainActivity : AppCompatActivity() {
                 val numP = view.findViewById<NumberPicker>(R.id.numP)
                 numP.minValue = 1
                 numP.maxValue = maxTime
-                numP.value = workTime
+                numP.value = workTime.toInt()
 
 
                 val builder = android.app.AlertDialog.Builder(this)
@@ -63,8 +62,8 @@ class MainActivity : AppCompatActivity() {
                 val doneButton: Button = view.findViewById(R.id.button)
                 val restnum: NumberPicker = view.findViewById(R.id.numP)
                 doneButton.setOnClickListener(View.OnClickListener {
-                    workTime = numP.value
-                    work.setText(Integer.toString(workTime));
+                    workTime = numP.value.toLong()
+                    work.setText(workTime.toString());
                     alert.dismiss()
 
 
@@ -80,7 +79,7 @@ class MainActivity : AppCompatActivity() {
                 val numP = view.findViewById<NumberPicker>(R.id.numP)
                 numP.minValue = 1
                 numP.maxValue = maxTime
-                numP.value = restTime
+                numP.value = restTime.toInt()
 
 
                 val builder = android.app.AlertDialog.Builder(this)
@@ -90,8 +89,8 @@ class MainActivity : AppCompatActivity() {
                 val doneButton: Button = view.findViewById(R.id.button)
                 val restnum: NumberPicker = view.findViewById(R.id.numP)
                 doneButton.setOnClickListener(View.OnClickListener {
-                    restTime = numP.value
-                    rest.setText(Integer.toString(restTime));
+                    restTime = numP.value.toLong()
+                    rest.setText(restTime.toString());
                     alert.dismiss()
 
 
@@ -106,9 +105,9 @@ class MainActivity : AppCompatActivity() {
 
             if (!isRunning) {
 
-
-             setAlarm(applicationContext,workTime +0L)
-                isRest = true;
+                Log.i("rest", workTime.toString())
+             setAlarm(applicationContext,workTime *1000L)
+               // isRest = true;
                // Toast.makeText(this, "work time is"+Integer.toString(workTime), Toast.LENGTH_SHORT).show()
                 startButton.setText("Stop")
                 isRunning = true;
@@ -117,7 +116,7 @@ class MainActivity : AppCompatActivity() {
                 val intent: Intent = Intent(this, AlertReciever::class.java)
                 val pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0)
                 alarmManager.cancel(pendingIntent)
-
+                isRest=false
                 startButton.setText("Start")
                 isRunning = false
             }
@@ -126,15 +125,22 @@ class MainActivity : AppCompatActivity() {
 
     }
     companion object {
+        var workTime = 25L
+        var restTime = 5L
+        var isRest = false;
         public fun setAlarm(x:Context,time: Long) {
             var alarmManager: AlarmManager = x.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
             val intent = Intent(x, AlertReciever::class.java)
+           // intent.putExtra("isRest",isRest)
+            intent.putExtra("workTime",workTime)
+            intent.putExtra("restTime",restTime)
+//            Log.i("rest", workTime.toString())
             val pendingIntent = PendingIntent.getBroadcast(x, 1, intent, 0)
             val c = Calendar.getInstance()
             c.setTimeInMillis(System.currentTimeMillis() + time)
-            c.set(Calendar.MILLISECOND, 0)
-            c.set(Calendar.SECOND, 0)
+//            c.set(Calendar.MILLISECOND, 0)
+//            c.set(Calendar.SECOND, 0)
 
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.timeInMillis, pendingIntent)
         }
