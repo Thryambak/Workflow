@@ -104,14 +104,9 @@ class MainActivity : AppCompatActivity() {
 //            Toast.makeText(this,Integer.toString(restTime),Toast.LENGTH_LONG).show()
 
             if (!isRunning) {
-                var alarmManager: AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-                val intent: Intent = Intent(this, AlertReciever::class.java)
-                val pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0)
-                //   val c = Calendar.getInstance()
 
-                // Log.i("time",c.timeInMillis.toString())
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+(workTime*1000L),pendingIntent)
+             setAlarm(applicationContext,workTime +0L)
                // Toast.makeText(this, "work time is"+Integer.toString(workTime), Toast.LENGTH_SHORT).show()
                 startButton.setText("Stop")
                 isRunning = true;
@@ -127,5 +122,19 @@ class MainActivity : AppCompatActivity() {
 
         })
 
+    }
+    companion object {
+        public fun setAlarm(x:Context,time: Long) {
+            var alarmManager: AlarmManager = x.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+            val intent = Intent(x, AlertReciever::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(x, 1, intent, 0)
+            val c = Calendar.getInstance()
+            c.setTimeInMillis(System.currentTimeMillis() + time)
+            c.set(Calendar.MILLISECOND, 0)
+            c.set(Calendar.SECOND, 0)
+
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.timeInMillis, pendingIntent)
+        }
     }
 }

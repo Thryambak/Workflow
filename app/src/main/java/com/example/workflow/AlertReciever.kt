@@ -8,8 +8,11 @@ import android.widget.Toast
 
 
 class AlertReciever : BroadcastReceiver() {
-    override fun onReceive(context: Context?, intent: Intent?) {
+    override fun onReceive(context: Context, intent: Intent?) {
         Toast.makeText(context,"hello", Toast.LENGTH_SHORT).show()
+
+//        val bintent = Intent(Context.ALARM_SERVICE)
+//        context.startService(bintent)
         Log.i("Alert","here")
     }
 }
