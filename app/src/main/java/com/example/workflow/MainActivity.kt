@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     val maxTime = 60
     var isRunning = false;
+    var isRest = false;
     var workTime = 25
     var restTime = 5
 
@@ -107,6 +108,7 @@ class MainActivity : AppCompatActivity() {
 
 
              setAlarm(applicationContext,workTime +0L)
+                isRest = true;
                // Toast.makeText(this, "work time is"+Integer.toString(workTime), Toast.LENGTH_SHORT).show()
                 startButton.setText("Stop")
                 isRunning = true;
