@@ -20,7 +20,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     val maxTime = 60
-    var isRunning = false;
+
 
 
 
@@ -28,9 +28,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val startButton = findViewById<Button>(R.id.start)
+
         val work: TextView = findViewById(R.id.work)
         val rest: TextView = findViewById(R.id.rest)
+        startButton = findViewById<Button>(R.id.start)
         val initialWait = 5000
 
         val sharedPref: SharedPreferences = getSharedPreferences("MyPref", 0)
@@ -112,13 +113,8 @@ class MainActivity : AppCompatActivity() {
                 startButton.setText("Stop")
                 isRunning = true;
             } else {
-                var alarmManager: AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                val intent: Intent = Intent(this, AlertReciever::class.java)
-                val pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0)
-                alarmManager.cancel(pendingIntent)
-                isRest=false
-                startButton.setText("Start")
-                isRunning = false
+                cancelAlarms(this);
+
             }
 
         })
@@ -126,6 +122,8 @@ class MainActivity : AppCompatActivity() {
     }
     companion object {
         var workTime = 25L
+        var isRunning = false;
+       lateinit var  startButton :Button
         var restTime = 5L
         var isRest = false;
         public fun setAlarm(x:Context,time: Long) {
@@ -143,6 +141,17 @@ class MainActivity : AppCompatActivity() {
 //            c.set(Calendar.SECOND, 0)
 
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.timeInMillis, pendingIntent)
+        }
+
+        fun cancelAlarms(x:Context){
+            var alarmManager: AlarmManager = x.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val intent: Intent = Intent(x, AlertReciever::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(x, 1, intent, 0)
+            alarmManager.cancel(pendingIntent)
+            isRest=false
+            startButton.setText("Start")
+
+            isRunning = false
         }
     }
 }

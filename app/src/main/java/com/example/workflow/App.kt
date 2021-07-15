@@ -7,8 +7,9 @@ import android.os.Build
 
 
 class App : Application() {
-    val CHANNEL_ID = "ALARM_SERVICE_CHANNEL"
-
+    companion object {
+        val CHANNEL_ID = "ALARM_SERVICE_CHANNEL"
+    }
     override fun onCreate() {
         super.onCreate()
         createNotificationChannnel();

@@ -14,13 +14,18 @@ class AlertReciever : BroadcastReceiver() {
             if (intent != null) {
                 if(!Intent.ACTION_BOOT_COMPLETED.equals(intent.action)) {
                 if (!MainActivity.isRest) {
-                    Toast.makeText(context, "OK Take a break now", Toast.LENGTH_SHORT).show()
-                    MainActivity.isRest = true
-                    MainActivity.setAlarm(context.applicationContext, MainActivity.restTime * 1000L)
+//                    Toast.makeText(context, "OK Take a break now", Toast.LENGTH_SHORT).show()
+                    val myint = Intent(context,AlarmService::class.java)
+                    context.startService(myint)
+
+
+
                 } else {
-                    Toast.makeText(context, "Start working", Toast.LENGTH_SHORT).show()
-                    MainActivity.isRest = false
-                    MainActivity.setAlarm(context.applicationContext, MainActivity.workTime * 1000L)
+           //         Toast.makeText(context, "Start working", Toast.LENGTH_SHORT).show()
+                    val myint = Intent(context,AlarmService::class.java)
+                    context.startService(myint)
+
+
                 }
 
             }

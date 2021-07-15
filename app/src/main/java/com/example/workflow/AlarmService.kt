@@ -9,6 +9,7 @@ import android.os.IBinder
 import android.os.Vibrator
 import android.provider.MediaStore
 import androidx.core.app.NotificationCompat
+import com.example.workflow.App.Companion.CHANNEL_ID
 
 class AlarmService : Service() {
 
@@ -34,10 +35,12 @@ class AlarmService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+
+
        val notificationIntent = Intent(this,RingActivity::class.java)
         val pending = PendingIntent.getActivity(this,0,notificationIntent,0)
         val title = intent?.let { String.format("%s Alarm", it.getStringExtra("TITLE"),"Work") };
-        val notification = NotificationCompat.Builder(this)
+        val notification = NotificationCompat.Builder(this,CHANNEL_ID)
             .setContentTitle(title)
             .setContentText("Times up!")
             .setSmallIcon(R.drawable.ic_baseline_alarm_24)

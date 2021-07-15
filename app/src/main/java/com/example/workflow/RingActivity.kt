@@ -1,14 +1,55 @@
-package com.example.workflow;
+package com.example.workflow
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import com.example.workflow.databinding.ActivityRingBinding
 
-import android.os.Bundle;
+class RingActivity : AppCompatActivity() {
 
-public class RingActivity extends AppCompatActivity {
+    private lateinit var binding: ActivityRingBinding
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ring);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityRingBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
+
+        binding.okay.setOnClickListener(View.OnClickListener {
+            if(MainActivity.isRest) {
+                val myint = Intent(this,AlarmService::class.java)
+                stopService(myint)
+                MainActivity.setAlarm(this.applicationContext, MainActivity.workTime * 1000L)
+                MainActivity.isRest = false
+                finish()
+            }else {
+                val myint = Intent(this,AlarmService::class.java)
+                stopService(myint)
+                MainActivity.setAlarm(this.applicationContext, MainActivity.restTime * 1000L)
+                MainActivity.isRest = true
+                finish()
+            }
+
+        })
+        binding.cancel.setOnClickListener(View.OnClickListener {
+            val myint = Intent(this,AlarmService::class.java)
+            stopService(myint)
+           MainActivity.cancelAlarms(applicationContext)
+            MainActivity.isRest = false
+            finish()
+        })
+
+        if(MainActivity.isRest)
+            binding.textView.text = "Start working"
+        else
+            binding.textView.text = "Go Rest"
+
+
+
     }
 }
