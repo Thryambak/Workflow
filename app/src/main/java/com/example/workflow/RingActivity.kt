@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.example.workflow.MainActivity.Companion.unitTime
 import com.example.workflow.databinding.ActivityRingBinding
 
 class RingActivity : AppCompatActivity() {
@@ -24,13 +25,13 @@ class RingActivity : AppCompatActivity() {
             if(MainActivity.isRest) {
                 val myint = Intent(this,AlarmService::class.java)
                 stopService(myint)
-                MainActivity.setAlarm(this.applicationContext, MainActivity.workTime * 1000L)
+                MainActivity.setAlarm(this.applicationContext, MainActivity.workTime * unitTime)
                 MainActivity.isRest = false
                 finish()
             }else {
                 val myint = Intent(this,AlarmService::class.java)
                 stopService(myint)
-                MainActivity.setAlarm(this.applicationContext, MainActivity.restTime * 1000L)
+                MainActivity.setAlarm(this.applicationContext, MainActivity.restTime * unitTime)
                 MainActivity.isRest = true
                 finish()
             }

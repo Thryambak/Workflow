@@ -39,7 +39,11 @@ class AlarmService : Service() {
 
        val notificationIntent = Intent(this,RingActivity::class.java)
         val pending = PendingIntent.getActivity(this,0,notificationIntent,0)
-        val title = intent?.let { String.format("%s Alarm", it.getStringExtra("TITLE"),"Work") };
+        var title:String
+        if(MainActivity.isRest)
+            title = "Get to work!"
+        else
+            title = "Rest!"
         val notification = NotificationCompat.Builder(this,CHANNEL_ID)
             .setContentTitle(title)
             .setContentText("Times up!")

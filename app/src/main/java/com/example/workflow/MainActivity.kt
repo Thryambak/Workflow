@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         workTime = sharedPref.getLong("workTime",25)
         restTime = sharedPref.getLong("restTime",5)
+
         work.setText(workTime.toString())
         rest.setText(restTime.toString())
 
@@ -107,11 +108,18 @@ class MainActivity : AppCompatActivity() {
             if (!isRunning) {
 
                 Log.i("rest", workTime.toString())
-             setAlarm(applicationContext,workTime *1000L)
+             setAlarm(applicationContext,workTime *unitTime)
+                val sharedPref: SharedPreferences = getSharedPreferences("MyPref", 0)
+                isRunning = true;
+                val editor = sharedPref.edit()
+                editor.putLong("workTime", workTime)
+                editor.putLong("restTime", restTime)
+                editor.putBoolean("isRunning", isRunning)
+                editor.commit()
                // isRest = true;
                // Toast.makeText(this, "work time is"+Integer.toString(workTime), Toast.LENGTH_SHORT).show()
                 startButton.setText("Stop")
-                isRunning = true;
+
             } else {
                 cancelAlarms(this);
 
@@ -121,6 +129,7 @@ class MainActivity : AppCompatActivity() {
 
     }
     companion object {
+        val unitTime = 60000L
         var workTime = 25L
         var isRunning = false;
        lateinit var  startButton :Button
@@ -148,6 +157,11 @@ class MainActivity : AppCompatActivity() {
             val intent: Intent = Intent(x, AlertReciever::class.java)
             val pendingIntent = PendingIntent.getBroadcast(x, 1, intent, 0)
             alarmManager.cancel(pendingIntent)
+            val sharedPref: SharedPreferences = x.getSharedPreferences("MyPref", 0)
+
+         val editor =   sharedPref.edit()
+             editor.putBoolean("isRunning",false)
+            editor.commit()
             isRest=false
             startButton.setText("Start")
 
