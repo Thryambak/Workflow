@@ -17,8 +17,7 @@
         android:text="25"
         android:textAlignment="center"
         android:textSize="36sp"
-        app:flow_horizontalAlign="start"
-        app:flow_verticalAlign="baseline"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
