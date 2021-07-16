@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                 numP.value = workTime.toInt()
 
 
-                val builder = android.app.AlertDialog.Builder(this)
+                val builder = android.app.AlertDialog.Builder(this,R.style.CustomAlertDialog)
                 builder.setView(view)
                 val alert = builder.create()
                 alert.show()
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
                 numP.value = restTime.toInt()
 
 
-                val builder = android.app.AlertDialog.Builder(this)
+                val builder = android.app.AlertDialog.Builder(this,R.style.CustomAlertDialog)
                 builder.setView(view)
                 val alert = builder.create()
                 alert.show()
