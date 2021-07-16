@@ -121,7 +121,11 @@ class MainActivity : AppCompatActivity() {
                 startButton.setText("Stop")
 
             } else {
+                val myint = Intent(this,AlarmService::class.java)
+                stopService(myint)
                 cancelAlarms(this);
+
+
 
             }
 
