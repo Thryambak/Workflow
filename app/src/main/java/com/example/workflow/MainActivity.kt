@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
@@ -14,6 +15,7 @@ import android.widget.Button
 import android.widget.NumberPicker
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import java.util.*
 
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -139,7 +142,8 @@ class MainActivity : AppCompatActivity() {
        lateinit var  startButton :Button
         var restTime = 5L
         var isRest = false;
-        public fun setAlarm(x:Context,time: Long) {
+        @RequiresApi(Build.VERSION_CODES.M)
+        public fun setAlarm(x:Context, time: Long) {
             var alarmManager: AlarmManager = x.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
             val intent = Intent(x, AlertReciever::class.java)
@@ -153,7 +157,7 @@ class MainActivity : AppCompatActivity() {
 //            c.set(Calendar.MILLISECOND, 0)
 //            c.set(Calendar.SECOND, 0)
 
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.timeInMillis, pendingIntent)
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, c.timeInMillis, pendingIntent)
         }
 
         fun cancelAlarms(x:Context){
