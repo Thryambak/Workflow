@@ -4,18 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    tools:context=".RingActivity" >
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="#171717"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:background="#171717"
+    tools:context=".RingActivity">
 
 
     <TextView
@@ -61,24 +51,24 @@
     <Button
         android:id="@+id/okay"
         android:layout_width="0dp"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent=".75"
         android:layout_height="wrap_content"
         android:layout_marginBottom="36dp"
         android:background="@drawable/buttonedit"
         android:elevation="2dp"
         android:fontFamily="@font/open_sans_extrabold"
         android:outlineSpotShadowColor="@color/white"
-
         android:text="Okay"
         android:textColor="#FFFEFE"
 
-
         android:textSize="50sp"
         android:textStyle="bold"
+
+
         app:layout_constraintBottom_toTopOf="@+id/cancel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent=".75" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
